@@ -7,8 +7,6 @@ const Config = {
 }
 
 async function handleClarifaiCall(req, res) {
-    console.log(req.body)
-    console.log(process.env)
     const { imageURL } = req.body;
     console.log(imageURL)
     const raw = JSON.stringify({
@@ -26,6 +24,7 @@ async function handleClarifaiCall(req, res) {
             }
         ]
     })
+    console.log(raw)
     try{
         const response = await fetch("https://api.clarifai.com/v2/models/" + Config.MODEL_ID + "/versions/" + Config.MODEL_VERSION_ID + "/outputs", {
             method: "POST",
@@ -35,6 +34,7 @@ async function handleClarifaiCall(req, res) {
             },
             body: raw
         });
+        console.log(response)
         const data = await response.json();
         console.log(data)
         return res.json(data);
