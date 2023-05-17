@@ -37,7 +37,7 @@ async function handleClarifaiCall(req, res) {
         const data = await response.json();
         return res.json(data);
     }catch(e){
-        res.status(400).json({ err: "Unable to work with API"})
+        res.status(400).json({ e })
     }
    
 }
