@@ -1,4 +1,3 @@
-require('dotenv').config({ path: "config/.env.test"});
 const { Router } = require("express");
 const AppRouter = new Router();
 const { getProfile,
@@ -8,6 +7,8 @@ const { getProfile,
 } = require("./controllers/UserController.js");
 const { handleClarifaiCall } = require("./controllers/ApiController.js");
 
+
+console.log(process.env)
 //Routes 
 
 //Get user profile
