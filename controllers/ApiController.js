@@ -35,9 +35,10 @@ async function handleClarifaiCall(req, res) {
             body: raw
         });
         const data = await response.json();
+        console.log(data)
         return res.json(data);
     }catch(e){
-        res.status(400).json({ e })
+        res.status(400).json(e)
     }
    
 }
