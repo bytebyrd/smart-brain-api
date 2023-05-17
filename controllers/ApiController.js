@@ -9,8 +9,6 @@ const Config = {
 
 async function handleClarifaiCall(req, res) {
     const { imageURL } = req.body;
-    console.log(imageURL)
-    console.log(Config);
     const body = {
         "user_app_id": {
             "user_id": Config.USER_ID,
@@ -26,7 +24,6 @@ async function handleClarifaiCall(req, res) {
             }
         ]
     };
-    const raw = JSON.stringify(body)
     try{
         const response = await axios.post("https://api.clarifai.com/v2/models/" + Config.MODEL_ID + "/versions/" + Config.MODEL_VERSION_ID + "/outputs", 
             body,
