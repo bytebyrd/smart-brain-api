@@ -3,19 +3,16 @@ const db = require('../database/db');
 
 async function registerUser(req, res) {
     const { username, email, password } = req.body;
-    if(!username || !email || !password ){
-        return res.status(400).json({ err: "Incorrect form submission"})
+    if (!username || !email || !password) {
+        return res.status(400).json({ err: "Incorrect form submission" })
     }
     const hash = await bcrypt.hash(password, 10);
     db.transaction(trx => {
-        trx('login').insert({ email, hash })
-            .then(() => {
-                return trx('users').insert({ name: username, email })
-            })
-            .then(id => {
-                return trx('users').select('*').where({ id: id[0] })
-            })
-            .then(data => {
+        trx('login').returning(['email', 'hash']).insert({ email, hash })
+            .then((data) => {
+                return trx('users').returning(['id', 'email', 'name', 'entries', 'memberSince'])
+                    .insert({ name: username, email, memberSince: new Date() })
+            }).then(data => {
                 trx.commit();
                 res.json(data[0])
             })

@@ -2,15 +2,10 @@ const knex = require('knex')
 
 //Connect to the database
 const database = knex({
-    client: 'mysql',
+    client: 'pg',
     connection: {
-        host: process.env.DATABASE_HOST,
-        port: process.env.DATABASE_PORT,
-        user: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME
-    }
+        connectionString: process.env.PG_CONNECTION_STRING,
+        ssl: { rejectUnauthorized: false }, //not to be used in production
+    },
 })
-console.log("DATABASE CONNECTED")
-
 module.exports = database;
