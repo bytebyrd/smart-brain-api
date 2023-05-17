@@ -9,6 +9,7 @@ const Config = {
 async function handleClarifaiCall(req, res) {
     const { imageURL } = req.body;
     console.log(imageURL)
+    console.log(Config);
     const raw = JSON.stringify({
         "user_app_id": {
             "user_id": Config.USER_ID,
