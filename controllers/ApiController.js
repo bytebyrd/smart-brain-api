@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Config = {
     PAT: process.env.CLARIFAI_PAT,
     USER_ID: process.env.CLARIFAI_USER_ID,
@@ -10,7 +11,7 @@ async function handleClarifaiCall(req, res) {
     const { imageURL } = req.body;
     console.log(imageURL)
     console.log(Config);
-    const raw = JSON.stringify({
+    const body = {
         "user_app_id": {
             "user_id": Config.USER_ID,
             "app_id": Config.APP_ID
@@ -24,25 +25,22 @@ async function handleClarifaiCall(req, res) {
                 }
             }
         ]
-    })
-    console.log(raw)
-    console.log(fetch);
+    };
+    const raw = JSON.stringify(body)
     try{
-        const response = await fetch("https://api.clarifai.com/v2/models/" + Config.MODEL_ID + "/versions/" + Config.MODEL_VERSION_ID + "/outputs", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Key ' + Config.PAT
-            },
-            body: raw
-        });
-        console.log(response)
-        const data = await response.json();
-        console.log(data)
-        return res.json(data);
+        const response = await axios.post("https://api.clarifai.com/v2/models/" + Config.MODEL_ID + "/versions/" + Config.MODEL_VERSION_ID + "/outputs", 
+            body,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Key ' + Config.PAT
+                }
+            }
+        );
+        return res.json(response.data);
     }catch(e){
-        console.log("WHAT THE FUCK????")
-        res.status(400).json(e.statusText)
+        console.log(e);
+        res.status(400).json({ err: "Unable to call API"})
     }
    
 }
