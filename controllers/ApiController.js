@@ -8,6 +8,7 @@ const Config = {
 
 async function handleClarifaiCall(req, res) {
     console.log(req.body)
+    console.log(process.env)
     const { imageURL } = req.body;
     console.log(imageURL)
     const raw = JSON.stringify({
