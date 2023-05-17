@@ -26,6 +26,7 @@ async function handleClarifaiCall(req, res) {
         ]
     })
     console.log(raw)
+    console.log(fetch);
     try{
         const response = await fetch("https://api.clarifai.com/v2/models/" + Config.MODEL_ID + "/versions/" + Config.MODEL_VERSION_ID + "/outputs", {
             method: "POST",
@@ -40,7 +41,8 @@ async function handleClarifaiCall(req, res) {
         console.log(data)
         return res.json(data);
     }catch(e){
-        res.status(400).json(e)
+        console.log("WHAT THE FUCK????")
+        res.status(400).json(e.statusText)
     }
    
 }
