@@ -10,8 +10,8 @@ async function registerUser(req, res) {
     db.transaction(trx => {
         trx('login').returning(['email', 'hash']).insert({ email, hash })
             .then((data) => {
-                return trx('users').returning(['id', 'email', 'name', 'entries', 'memberSince'])
-                    .insert({ name: username, email, memberSince: new Date() })
+                return trx('users').returning(['id', 'email', 'name', 'entries', 'joined'])
+                    .insert({ name: username, email, joined: new Date() })
             }).then(data => {
                 trx.commit();
                 res.json(data[0])
